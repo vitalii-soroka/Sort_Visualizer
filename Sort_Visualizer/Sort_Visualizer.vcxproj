@@ -134,28 +134,41 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="ArrayGenerator.cpp" />
+    <ClCompile Include="DataFiller.cpp" />
     <ClCompile Include="BubbleSort.cpp" />
+    <ClCompile Include="DataStorage.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="InsertionSort.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MergeSort.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="SelectionSort.cpp" />
+    <ClCompile Include="SortAlgorithm.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIDisplayer.cpp" />
     <ClCompile Include="UIElement.cpp" />
     <ClCompile Include="UIRectangle.cpp" />
+    <ClCompile Include="UIText.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
-    <ClInclude Include="ArrayFiller.h" />
+    <ClInclude Include="DataFiller.h" />
     <ClInclude Include="BubbleSort.h" />
-    <ClInclude Include="Command.h" />
+    <ClInclude Include="Commands.h" />
+    <ClInclude Include="DataStorage.h" />
+    <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="InsertionSort.h" />
+    <ClInclude Include="MergeSort.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="SelectionSort.h" />
     <ClInclude Include="SortAlgorithm.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIDisplayer.h" />
     <ClInclude Include="UIElement.h" />
     <ClInclude Include="UIPanel.h" />
     <ClInclude Include="UIRectangle.h" />
+    <ClInclude Include="UIText.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

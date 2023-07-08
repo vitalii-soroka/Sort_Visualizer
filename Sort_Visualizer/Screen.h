@@ -6,7 +6,7 @@
 class Screen : public Observer
 {
 public:
-	Screen(sf::RenderWindow& window);
+	explicit Screen(sf::RenderWindow& window);
 	
 	void attachUI(std::unique_ptr<UIElement> element);
 

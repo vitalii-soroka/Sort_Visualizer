@@ -10,11 +10,17 @@ public:
 
 	void setTextColor(const sf::Color& color);
 
+	void setText(const std::string& text);
+
 private:
 	bool selected = false;
 
 	sf::Font font; 
 	sf::Text content;
+
+	void calculateOrigin();
 };
 
 inline void UIButton::setTextColor(const sf::Color& color) { content.setFillColor(color); }
+
+

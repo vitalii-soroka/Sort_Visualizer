@@ -13,8 +13,21 @@ public:
 
 	void setFillColor(const sf::Color& color);
 
+	bool checkInBounds(sf::Vector2f position) const;
+
 private:
 	sf::RectangleShape rectangle;
 };
-inline sf::Vector2f UIRectangle::getSize() const { return rectangle.getSize(); }
-inline void UIRectangle::setFillColor(const sf::Color& color) { rectangle.setFillColor(color); }
+
+inline bool UIRectangle::checkInBounds(sf::Vector2f position) const
+{
+	return rectangle.getGlobalBounds().contains(position);
+}
+inline sf::Vector2f UIRectangle::getSize() const 
+{ 
+	return rectangle.getSize(); 
+}
+inline void UIRectangle::setFillColor(const sf::Color& color) 
+{ 
+	rectangle.setFillColor(color); 
+}

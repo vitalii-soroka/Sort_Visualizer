@@ -2,23 +2,21 @@
 #include <vector>
 #include "Observer.h"
 #include "UIRectangle.h"
+#include "DataStorage.h"
 
-
-
-class UIDisplayer : public UIRectangle, public Observer
+class UIDisplayer : public UIRectangle
 {
 public:
 	UIDisplayer(sf::Vector2f position, sf::Vector2f size);
+	UIDisplayer(sf::Vector2f position, sf::Vector2f size, DataStorage* data);
 
-	void update() override;
-
-	void attach(std::vector<int>* data);
+	void attach(DataStorage* data);
 
 	void draw(sf::RenderWindow& window) override;
 
 private:
 	sf::RectangleShape template_rect;
-	std::vector<int>* data;
+	DataStorage* data;
 
 	int max_data = 100; // temp
 };
