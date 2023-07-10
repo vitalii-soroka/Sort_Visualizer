@@ -144,6 +144,7 @@
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="SelectionSort.cpp" />
     <ClCompile Include="SortAlgorithm.cpp" />
+    <ClCompile Include="StandartSort.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIDisplayer.cpp" />
     <ClCompile Include="UIElement.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Screen.h" />
     <ClInclude Include="SelectionSort.h" />
     <ClInclude Include="SortAlgorithm.h" />
+    <ClInclude Include="StandartSort.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIDisplayer.h" />
     <ClInclude Include="UIElement.h" />

@@ -8,13 +8,15 @@
 class InputHandler
 {
 public:
-	InputHandler();
-
-	void attachButton(UIButton* button, Command* command) { buttons_map[button] = command; }
+	void attachButton(UIButton* button, Command* command);
 	void handleInput(const sf::Event& event, sf::RenderWindow& window);
 
 private:
-	std::unique_ptr<sf::Thread> inputThread;
-
+	void handleMouseClick(const sf::Event& event, sf::RenderWindow& window);
 	std::map<UIButton*, Command*> buttons_map;
 };
+
+inline void InputHandler::attachButton(UIButton* button, Command* command)
+{
+	buttons_map[button] = command;
+}
