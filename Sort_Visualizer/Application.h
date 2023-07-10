@@ -1,11 +1,11 @@
 #pragma once
-#include <set>
+#include "InputHandler.h"
 #include "SFML/Graphics.hpp"
 #include "Screen.h"
 #include "SortAlgorithm.h"
-#include "InputHandler.h"
 
-using SortAlgorithmPtr = void (SortAlgorithm::*)(std::vector<int>&) const;
+using command_ptr = std::shared_ptr<Command>;
+using algorithm_vector_ptr = std::vector<std::unique_ptr<SortAlgorithm>>;
 
 class Application
 {
@@ -14,19 +14,20 @@ public:
 	void run();
 
 private:
-	void drawThreadFunction() const;
-	
-	std::vector<std::unique_ptr<SortAlgorithm>> algorithms;
-	std::vector<std::string> names;
+	// function to draw in other thread
+	void draw() const;
 
-	size_t a_index = 0;
-	size_t a_size = 0;
+	algorithm_vector_ptr algorithms;
+	std::vector<std::string> names;
+	size_t currentIndx = 0;
+	size_t algorithmsSize = 0;
 	
 	sf::RenderWindow window;
 	Screen screen;
-	SortCommand sort_command;
-	GenerateCommand generate_command;
-	std::unique_ptr<NNextCommand> select_command;
+
+	command_ptr sort_command;
+	command_ptr generate_command;
+	command_ptr select_command;
 
 	InputHandler input;
 	DataStorage data;

@@ -3,19 +3,16 @@
 #include <list>
 #include <memory>
 
-class Screen : public Observer
+class Screen 
 {
 public:
 	explicit Screen(sf::RenderWindow& window);
 	
-	void attachUI(std::unique_ptr<UIElement> element);
+	void attachUI(std::shared_ptr<UIElement> element);
 
 	void draw() const;
 
-	void update() override { draw(); }
-
 private:
 	sf::RenderWindow& window;
-	std::list<std::unique_ptr<UIElement>> elements;
+	std::list<std::shared_ptr<UIElement>> elements;
 };
-

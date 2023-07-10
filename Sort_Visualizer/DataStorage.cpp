@@ -1,4 +1,6 @@
 #include "DataStorage.h"
+#include "SFML/System/Mutex.hpp"
+#include "SFML/System/Lock.hpp"
 
 sf::Mutex mutex; // blocks concurent access
 
@@ -32,19 +34,19 @@ void DataStorage::push_back(int value)
 	data.push_back(value);
 }
 
-std::vector<int>::iterator  DataStorage::begin()
+std::vector<int>::iterator DataStorage::begin()
 {
 	sf::Lock lock(mutex);
 	return data.begin();
 }
 
-std::vector<int>::iterator  DataStorage::end()
+std::vector<int>::iterator DataStorage::end()
 {
 	sf::Lock lock(mutex);
 	return data.end();
 }
 
-size_t  DataStorage::size() const
+size_t DataStorage::size() const
 {
 	sf::Lock lock(mutex);
 	return data.size();

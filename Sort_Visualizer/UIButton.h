@@ -1,7 +1,11 @@
 #pragma once
 #include "UIRectangle.h"
 #include "SFML/Graphics/Text.hpp"
+#include "SFML/Graphics/Color.hpp"
 
+/**
+* Rectangle shape button
+*/
 class UIButton : public UIRectangle
 {
 public:
@@ -12,12 +16,17 @@ public:
 	void setText(const std::string& text);
 
 private:
-	bool selected = false;
+	const int fontSize = 30;
+	const sf::Color fontColor = sf::Color::White;
+
+	bool textActive = false;
 
 	sf::Font font; 
 	sf::Text content;
 
+	// calculates origin of text to be on centre
 	void calculateOrigin();
+
 };
 
 inline void UIButton::setTextColor(const sf::Color& color)

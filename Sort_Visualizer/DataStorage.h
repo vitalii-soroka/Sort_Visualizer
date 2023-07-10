@@ -1,12 +1,11 @@
 #pragma once
 #include <vector>
-#include "SFML/System/Mutex.hpp"
-#include "SFML/System/Lock.hpp"
 
 /**
-* Data wrapper ... 
+* Wrapper for data container,
+* controls access
 */
-static class DataStorage
+class DataStorage
 {
 public:
 	explicit DataStorage() = default;
@@ -22,9 +21,8 @@ public:
 
 	void clear();
 	void reserve(size_t n);
-	void push_back(int);
+	void push_back(int element);
 
 private:
 	std::vector<int> data;
 };
-

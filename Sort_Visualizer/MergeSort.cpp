@@ -5,7 +5,7 @@ void MergeSort::operator()(DataStorage& data) const
 	mergeSort(data, 0, data.size() - 1);
 }
 
-void MergeSort::mergeSort(DataStorage& data, size_t begin, size_t end) const
+void MergeSort::mergeSort(DataStorage& data, int begin, int end) const
 {
 	if (begin >= end) return;
 
@@ -16,37 +16,40 @@ void MergeSort::mergeSort(DataStorage& data, size_t begin, size_t end) const
 	merge(data, begin, mid, end);
 }
 
-void MergeSort::merge(DataStorage& data, size_t const left, size_t const mid, size_t const right) const
+void MergeSort::merge(DataStorage& data, int const left, int const mid, int const right) const
 {
-	size_t const subArrayOne = mid - left + 1;
-	size_t const subArrayTwo = right - mid;
+	int const subArrayOne = mid - left + 1;
+	int const subArrayTwo = right - mid;
 
 	auto* leftArray = new int[subArrayOne];
 	auto * rightArray = new int[subArrayTwo];
 
-	// Copy data to temp arrays leftArray[] and rightArray[]
 	for (auto i = 0; i < subArrayOne; i++)
+	{
 		leftArray[i] = data[left + i];
+	}
 	for (auto j = 0; j < subArrayTwo; j++)
+	{
 		rightArray[j] = data[mid + 1 + j];
+	}
 
-	size_t indexOfSubArrayOne = 0;
-	size_t indexOfSubArrayTwo = 0;
+	int indexOfSubArrayOne = 0;
+	int indexOfSubArrayTwo = 0;
 
-	size_t indexOfMergedArray = left;
+	int indexOfMergedArray = left;
 
 	while (indexOfSubArrayOne < subArrayOne && indexOfSubArrayTwo < subArrayTwo) 
 	{
 		if (leftArray[indexOfSubArrayOne] <= rightArray[indexOfSubArrayTwo]) 
 		{
-			sleep(10);
+			sleep(DEFAULT_SLEEP / 2);
 			data[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
 
 			indexOfSubArrayOne++;
 		}
 		else
 		{
-			sleep(10);
+			sleep(DEFAULT_SLEEP / 2);
 			data[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
 			indexOfSubArrayTwo++;
 		}
@@ -55,7 +58,7 @@ void MergeSort::merge(DataStorage& data, size_t const left, size_t const mid, si
 
 	while (indexOfSubArrayOne < subArrayOne) 
 	{
-			sleep(10);
+			sleep(DEFAULT_SLEEP / 2);
 			data[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
 			indexOfSubArrayOne++;
 			indexOfMergedArray++;
@@ -63,7 +66,7 @@ void MergeSort::merge(DataStorage& data, size_t const left, size_t const mid, si
 
 	while (indexOfSubArrayTwo < subArrayTwo) 
 	{
-		sleep(10);
+		sleep(DEFAULT_SLEEP / 2);
 		data[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
 		indexOfSubArrayTwo++;
 		indexOfMergedArray++;

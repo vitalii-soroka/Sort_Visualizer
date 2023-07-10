@@ -1,65 +1,83 @@
 #include "Application.h"
-
-#include <functional>
-
+#include "Commands.h"
+#include "DataFiller.h"
 #include "SFML/System.hpp"
-
 #include "UIButton.h";
 #include "UIDisplayer.h";
-
-#include "DataFiller.h"
-#include "Commands.h"
+#include <functional>
 
 #include "BubbleSort.h"
-#include "SelectionSort.h"
+#include "HeapSort.h"
 #include "InsertionSort.h"
-#include "StandartSort.h"
 #include "MergeSort.h"
+#include "QuickSort.h"
+#include "RadixSort.h"
+#include "SelectionSort.h"
+#include "StandartSort.h"
 
-Application::Application() : 
+using std::make_unique;
+using std::make_shared;
+using std::move;
+using sf::Event;
+using sf::Thread;
+using sf::Vector2f;
+
+// hardcoded application details
+Application::Application() :
 	window(sf::VideoMode(800, 600), "Sort Machine", sf::Style::Close),
-	screen(window),
-	sort_command(data, algorithms, a_index),
-	generate_command(data)
+	screen(window)
 {
 	window.setFramerateLimit(60);
 
-	// Algorithms 
+	// Algorithms names
 	names.emplace_back("Bubble");
 	names.emplace_back("Selection");
 	names.emplace_back("Insertion");
 	names.emplace_back("Merge");
-	names.emplace_back("Standart");
+	names.emplace_back("Quick");
+	names.emplace_back("Heap");
+	names.emplace_back("Radix");
+	names.emplace_back("std::sort");
 
-	algorithms.push_back(std::make_unique<BubbleSort>(BubbleSort()));
-	algorithms.push_back(std::make_unique<SelectionSort>(SelectionSort()));
-	algorithms.push_back(std::make_unique<InsertionSort>(InsertionSort()));
-	algorithms.push_back(std::make_unique<MergeSort>(MergeSort()));
-	algorithms.push_back(std::make_unique<StandartSort>(StandartSort()));
-	
-	// Buttons
-	auto mergeSort = std::make_unique<UIButton>(sf::Vector2f(300, 500), sf::Vector2f(100, 50), "Sort");
-	auto generate = std::make_unique<UIButton>(sf::Vector2f(450, 500), sf::Vector2f(200, 50), "Generate");
-	auto text = std::make_unique<UIButton>(sf::Vector2f(50, 500), sf::Vector2f(200, 50), names[0]);
+	// Algorithms implementations
+	algorithms.emplace_back(new BubbleSort);
+	algorithms.emplace_back(new SelectionSort);
+	algorithms.emplace_back(new InsertionSort);
+	algorithms.emplace_back(new MergeSort);
+	algorithms.emplace_back(new QuickSort);
+	algorithms.emplace_back(new HeapSort);
+	algorithms.emplace_back(new RadixSort);
+	algorithms.emplace_back(new StandartSort);
 
-	// Commands
-	select_command = std::make_unique<NNextCommand>(algorithms, names, a_index, text.get());
-	
-	// Input
-	input.attachButton(mergeSort.get(), &sort_command);
-	input.attachButton(generate.get(), &generate_command);
-	input.attachButton(text.get(), select_command.get());
+	algorithmsSize = algorithms.size();
 
-	// Screen UI
-	screen.attachUI(std::move(generate));
-	screen.attachUI(std::move(mergeSort));
-	screen.attachUI(std::move(text));
-	screen.attachUI(std::make_unique<UIDisplayer>(sf::Vector2f(50, 50), sf::Vector2f(700, 400), &data));
+	// UI Elements
+	auto sortButton = make_shared<UIButton>(Vector2f(300, 500), Vector2f(200, 50), "Sort");
+	auto generateButton = make_shared<UIButton>(Vector2f(550, 500),Vector2f(200, 50), "Generate");
+	auto selectButton = make_shared<UIButton>(Vector2f(50, 500), Vector2f(200, 50), names[0]);
+	auto displayer = make_shared<UIDataDisplayer>(Vector2f(50, 50), Vector2f(700, 400), &data);
 
-	a_size = algorithms.size();
+	// Commands - select next command
+	select_command = make_shared<NextCommand>(algorithms, names, currentIndx, selectButton);
+	sort_command = make_shared<SortCommand>(data, algorithms, currentIndx);
+	generate_command = make_shared<GenerateCommand>(data, *displayer);
+
+	// Input - attaches button to command
+	input.attachButton(sortButton, sort_command);
+	input.attachButton(generateButton, generate_command);
+	input.attachButton(selectButton, select_command);
+
+	// generate array
+	generate_command->execute();
+
+	// Screen UI - attaches buttons
+	screen.attachUI(generateButton);
+	screen.attachUI(sortButton);
+	screen.attachUI(selectButton);
+	screen.attachUI(displayer);
 }
 
-void Application::drawThreadFunction() const
+void Application::draw() const
 {
 	while (window.isOpen())
 	{
@@ -67,18 +85,16 @@ void Application::drawThreadFunction() const
 	}
 }
 
-void Application::run() 
+void Application::run()
 {
-	DataFiller data_filler;
-	data_filler(data, 100, 1, 100);
-
 	// Create the draw thread
-	window.setActive(false);	// should disable window before using in other threads
-	sf::Thread drawThread([this]() { drawThreadFunction(); });
+	Thread drawThread([this]() { draw(); });
+	// should disable window before using in other threads
+	window.setActive(false);	
 	drawThread.launch();
 
-	// Main loop 'always create the window and handle its events in the main thread for maximum portability'.
-	sf::Event event;
+	// create the window and handle its events in the main thread!
+	Event event;
 
 	while (window.isOpen())
 	{

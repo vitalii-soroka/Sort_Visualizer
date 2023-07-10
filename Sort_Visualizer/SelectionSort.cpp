@@ -1,6 +1,5 @@
 #include "SelectionSort.h"
 
-
 void SelectionSort::operator()(DataStorage& data) const
 {
 	size_t min;
@@ -21,7 +20,7 @@ void SelectionSort::operator()(DataStorage& data) const
 		{
 			data.swap(min, i);
 			
-			sleep(40);
+			sleep(DEFAULT_SLEEP * 2);
 		}
 	}
 }
