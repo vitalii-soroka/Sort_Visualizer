@@ -1,7 +1,7 @@
 #pragma once
 #include "SortAlgorithm.h"
 
-struct BubbleSort : public SortAlgorithm
+struct StandartSort : public SortAlgorithm
 {
 	void operator()(DataStorage& data) const override;
 };

@@ -1,19 +1,20 @@
 #include "BubbleSort.h"
+#include "SFML/System.hpp"
 
-void BubbleSort::sort(std::vector<int>& array)
+void BubbleSort::operator()(DataStorage& data) const
 {
-	for (std::vector<int>::size_type i = 0; i < array.size() - 1; ++i)
+	for (size_t i = 0; i < data.size() - 1; ++i)
 	{
 		bool swapped = false;
 
-		for (std::vector<int>::size_type j = 0; j < array.size() - 1; ++j)
+		for (size_t j = 0; j < data.size() - 1; ++j)
 		{
-			if (array[j] > array[j + 1])
+			if (data[j] > data[j + 1])
 			{
-				std::swap(array[j], array[j + 1]);
+				data.swap(j, j + 1);
 				swapped = true;
-				
-				notify(); // notify that changed
+
+				sleep(10); // temp
 			}
 		}
 		if (!swapped) return;

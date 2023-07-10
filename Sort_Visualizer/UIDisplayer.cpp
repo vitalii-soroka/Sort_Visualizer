@@ -9,12 +9,14 @@ UIDisplayer::UIDisplayer(sf::Vector2f position, sf::Vector2f size)
 	
 }
 
-void UIDisplayer::update()
-{
+UIDisplayer::UIDisplayer(sf::Vector2f position, sf::Vector2f size, DataStorage* data)
+	: UIDisplayer(position, size)
 	
+{
+	attach(data);
 }
 
-void UIDisplayer::attach(std::vector<int>* data)
+void UIDisplayer::attach(DataStorage* data)
 {
 	this->data = data; 
 
@@ -29,14 +31,15 @@ void UIDisplayer::draw(sf::RenderWindow& window)
 	template_rect.setSize(getSize());
 
 	template_rect.setOutlineColor(sf::Color::White); // temp
-	template_rect.setOutlineThickness(1);			 // temp
-	template_rect.setFillColor(sf::Color::Black );   // temp
+	template_rect.setOutlineThickness(2);			 // temp
+	template_rect.setFillColor(sf::Color::Black);   // temp
 
 	window.draw(template_rect);
 
-	template_rect.setFillColor(sf::Color::Green);
-
 	if (!data) return;
+
+	template_rect.setFillColor(sf::Color(36, 36, 85));
+	template_rect.setOutlineThickness(0);			 // temp
 
 	auto cellSizeX = getSize().x / data->size(); // temp
 	auto cellSizeY = getSize().y / max_data;
@@ -49,4 +52,6 @@ void UIDisplayer::draw(sf::RenderWindow& window)
 
 		window.draw(template_rect);
 	}
+
+	
 }
