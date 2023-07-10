@@ -1,57 +1,53 @@
 #include "UIDisplayer.h"
-#include <algorithm>
-#include <iostream>
 #include <SFML/System.hpp>
+#include <algorithm>
+#include <assert.h>
+#include <iostream>
 
-UIDisplayer::UIDisplayer(sf::Vector2f position, sf::Vector2f size)
-	: UIRectangle(position, size)
+UIDataDisplayer::UIDataDisplayer(sf::Vector2f position, sf::Vector2f size, DataStorage* data)
+	: UIRectangle(position, size), data(data)
 {
-	
+	updateMax();
 }
 
-UIDisplayer::UIDisplayer(sf::Vector2f position, sf::Vector2f size, DataStorage* data)
-	: UIDisplayer(position, size)
-	
+void UIDataDisplayer::updateMax()
 {
-	attach(data);
-}
-
-void UIDisplayer::attach(DataStorage* data)
-{
-	this->data = data; 
+	assert(data);
 
 	auto it = std::max_element(data->begin(), data->end());
-
 	if (it != data->end()) max_data = *it;
 }
 
-void UIDisplayer::draw(sf::RenderWindow& window)
+void UIDataDisplayer::draw(sf::RenderWindow& window)
 {
+	// draws box for data
 	template_rect.setPosition(getPosition());
 	template_rect.setSize(getSize());
 
-	template_rect.setOutlineColor(sf::Color::White); // temp
-	template_rect.setOutlineThickness(2);			 // temp
-	template_rect.setFillColor(sf::Color::Black);   // temp
+	template_rect.setOutlineColor(outlineColor);
+	template_rect.setOutlineThickness(outlineThick);
+	template_rect.setFillColor(fillColor); 
 
 	window.draw(template_rect);
 
 	if (!data) return;
 
-	template_rect.setFillColor(sf::Color(36, 36, 85));
-	template_rect.setOutlineThickness(0);			 // temp
+	// draws for each element corresponding rectangle
+	template_rect.setFillColor(dataFillColor);
+	template_rect.setOutlineThickness(dataOutlineThick);			 
 
-	auto cellSizeX = getSize().x / data->size(); // temp
-	auto cellSizeY = getSize().y / max_data;
+	// calculates size of each element on board
+	auto cellSizeX = getSize().x / (float)data->size(); 
+	auto cellSizeY = getSize().y / (float)max_data;
 
 	for (auto i = 0; i < data->size(); ++i)
 	{
 		template_rect.setSize({ cellSizeX, cellSizeY * (float)(*data)[i] });
-		template_rect.setPosition({ getPosition().x + cellSizeX * i,
-			getPosition().y + getSize().y - template_rect.getSize().y });
-
+		template_rect.setPosition(
+			{ 
+				getPosition().x + cellSizeX * (float)i,
+				getPosition().y + getSize().y - template_rect.getSize().y 
+			});
 		window.draw(template_rect);
 	}
-
-	
 }

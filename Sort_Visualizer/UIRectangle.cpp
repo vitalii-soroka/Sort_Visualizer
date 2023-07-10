@@ -5,7 +5,7 @@ UIRectangle::UIRectangle(sf::Vector2f position, sf::Vector2f size)
 	rectangle(size)
 {
 	rectangle.setPosition(position);
-	rectangle.setFillColor(sf::Color(36, 36, 85)); // temp
+	rectangle.setFillColor(defaul_color);
 }
 
 void UIRectangle::draw(sf::RenderWindow& window)

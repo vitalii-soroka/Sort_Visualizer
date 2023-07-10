@@ -17,6 +17,6 @@ void InsertionSort::operator()(DataStorage& data) const
 		}
 		data[j + 1] = key;
 		
-		sleep(100);
+		sleep(DEFAULT_SLEEP * 5);
 	}
 }

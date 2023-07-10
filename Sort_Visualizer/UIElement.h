@@ -2,8 +2,10 @@
 #include "SFML/System/Vector2.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
 
-
-
+/**
+* Abstract UI element
+* stores position and should override draw
+*/
 class UIElement
 {
 public:
@@ -18,4 +20,7 @@ private:
 	sf::Vector2f position;
 };
 
-inline sf::Vector2f UIElement::getPosition() const { return position; }
+inline sf::Vector2f UIElement::getPosition() const 
+{ 
+	return position; 
+}

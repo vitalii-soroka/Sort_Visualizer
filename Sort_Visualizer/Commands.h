@@ -1,12 +1,14 @@
 #pragma once
-#include <vector>
-#include "SortAlgorithm.h"
-#include "SFML/System/Thread.hpp"
 #include "DataFiller.h"
+#include "SFML/System/Thread.hpp"
+#include "SortAlgorithm.h"
 #include "UIButton.h"
+#include "UIDisplayer.h"
+#include <assert.h>
+#include <vector>
 
 /**
-* Default Commands
+* Commands to attach with buttons
 */
 struct Command {
 	virtual ~Command() = default;
@@ -16,13 +18,6 @@ struct Command {
 class NoCommand : public Command
 {
 	void execute() override {/*  */};
-};
-
-class DataCommand
-{
-public:
-	virtual ~DataCommand() = default;
-	virtual void execute(SortAlgorithm* algorithm, std::vector<int>& data) = 0;
 };
 
 class SortCommand : public Command
@@ -47,63 +42,40 @@ private:
 class GenerateCommand : public Command
 {
 public:
-	explicit GenerateCommand(DataStorage& data) :
-		data(data)
+	explicit GenerateCommand(DataStorage& data, UIDataDisplayer& displayer) :
+		data(data), displayer(displayer)
 	{ }
+
+	void setParam(int newSize, int newMin, int newMax)
+	{
+		assert(min < max && size > 0);
+		size = newSize;
+		min = newMin;
+		max = newMax;
+	}
 
 	void execute() override
 	{
-		filler(data, 100, 1, 100); // temp
+		filler(data, size, min, max);
+		displayer.updateMax();
 	}
 
 private:
-	
+	int size = 100;
+	int min = 1;
+	int max = 100;
+
 	DataStorage& data;
+	UIDataDisplayer& displayer;
 	DataFiller filler;
 };
 
 class NextCommand : public Command
 {
 public:
-	explicit NextCommand(size_t& size, size_t& current) :
-		size(size), current(current) { }
-
-	void execute() override
-	{
-		if (current >= size - 1) current = 0;
-		else ++current;
-	}
-
-private:
-	size_t& size;
-	size_t& current;
-};
-
-class PrevCommand : public Command
-{
-public:
-	explicit PrevCommand(size_t& size, size_t& current) :
-		size(size), current(current)
-	{ }
-
-	void execute() override
-	{
-		if (current == 0) current = size - 1;
-		else --current;
-	}
-
-private:
-	size_t& size;
-	size_t& current;
-};
-
-
-class NNextCommand : public Command
-{
-public:
-	explicit NNextCommand(
+	explicit NextCommand(
 		std::vector<std::unique_ptr<SortAlgorithm>>& algorithms,
-		std::vector<std::string>& names, size_t& current, UIButton* ref) :
+		std::vector<std::string>& names, size_t& current, std::shared_ptr<UIButton> ref) :
 
 		algorithms(algorithms),
 		names(names),
@@ -120,25 +92,8 @@ public:
 	}
 
 private:
-	size_t& current;
-	UIButton* button;
 	std::vector<std::unique_ptr<SortAlgorithm>>& algorithms;
 	std::vector<std::string>& names;
-};
-
-class UpdateCommand : public Command
-{
-public:
-	explicit UpdateCommand(UIButton& ref, std::vector<std::string>& names, size_t& size) :
-		button(ref), names(names), index(size) { }
-
-	void execute() override
-	{
-		button.setText(names[index]);
-	}
-
-private:
-	UIButton& button;
-	std::vector<std::string>& names;
-	size_t& index;
+	size_t& current;
+	std::shared_ptr<UIButton> button;
 };

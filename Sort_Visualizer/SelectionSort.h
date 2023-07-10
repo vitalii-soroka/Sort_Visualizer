@@ -6,4 +6,3 @@ struct SelectionSort : public SortAlgorithm
 {
 	void operator()(DataStorage& data) const override ;
 };
-

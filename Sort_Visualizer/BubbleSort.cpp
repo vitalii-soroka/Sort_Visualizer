@@ -14,7 +14,7 @@ void BubbleSort::operator()(DataStorage& data) const
 				data.swap(j, j + 1);
 				swapped = true;
 
-				sleep(10); // temp
+				sleep(DEFAULT_SLEEP / 4);
 			}
 		}
 		if (!swapped) return;

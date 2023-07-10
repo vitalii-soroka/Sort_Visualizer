@@ -5,6 +5,6 @@ struct MergeSort : public SortAlgorithm
 {
 	void operator()(DataStorage& data) const override;
 private:
-	void mergeSort(DataStorage& data, size_t begin, size_t end) const;
-	void merge(DataStorage& data, size_t const left, size_t const mid, size_t const right) const;
+	void mergeSort(DataStorage& data, int begin, int end) const;
+	void merge(DataStorage& data, int const left, int const mid, int const right) const;
 };

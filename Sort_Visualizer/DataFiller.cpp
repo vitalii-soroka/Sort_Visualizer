@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <iostream>
 
-void DataFiller::operator()(DataStorage& data, int size, int min, int max)
+void DataFiller::operator()(DataStorage& data, int size, int min, int max) const
 {
 	data.clear();
 	data.reserve(size);

@@ -1,22 +1,25 @@
 #pragma once
-#include "SFML/Window/Event.hpp"
 #include "Commands.h"
+#include "SFML/Window/Event.hpp"
 #include "UIButton.h"
-#include <list>
 #include <map>
+
+using button_ptr = std::shared_ptr<UIButton>;
+using command_ptr = std::shared_ptr<Command>;
+using buttonCommand_map = std::map<button_ptr, command_ptr>;
 
 class InputHandler
 {
 public:
-	void attachButton(UIButton* button, Command* command);
-	void handleInput(const sf::Event& event, sf::RenderWindow& window);
+	void attachButton(button_ptr button, command_ptr command);
+	void handleInput(const sf::Event& event, sf::RenderWindow& window) const;
 
 private:
-	void handleMouseClick(const sf::Event& event, sf::RenderWindow& window);
-	std::map<UIButton*, Command*> buttons_map;
+	void handleMouseClick(const sf::Event& event, const sf::RenderWindow& window) const;
+	buttonCommand_map buttons_map;
 };
 
-inline void InputHandler::attachButton(UIButton* button, Command* command)
+inline void InputHandler::attachButton(button_ptr button, command_ptr command)
 {
 	buttons_map[button] = command;
 }

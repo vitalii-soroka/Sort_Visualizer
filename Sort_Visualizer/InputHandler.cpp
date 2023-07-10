@@ -1,6 +1,6 @@
 #include "InputHandler.h"
 
-void InputHandler::handleInput(const sf::Event& event, sf::RenderWindow& window)
+void InputHandler::handleInput(const sf::Event& event, sf::RenderWindow& window) const
 {	
 	// Click handling
 	if (event.type == sf::Event::MouseButtonPressed)
@@ -16,23 +16,23 @@ void InputHandler::handleInput(const sf::Event& event, sf::RenderWindow& window)
 	
 }
 
-void InputHandler::handleMouseClick(const sf::Event& event, sf::RenderWindow& window)
+void InputHandler::handleMouseClick(const sf::Event& event, const sf::RenderWindow& window) const
 {
 	auto mousePos = sf::Mouse::getPosition(window);
 
 	if (event.mouseButton.button == sf::Mouse::Left)
 	{
-		for (const auto& elem : buttons_map)
+		// checks every button for mouse overlap
+		for (const auto& pair : buttons_map)
 		{
-			if (elem.first->checkInBounds({ (float)mousePos.x, (float)mousePos.y }))
+			if (pair.first->checkInBounds({ (float)mousePos.x, (float)mousePos.y }))
 			{
-				auto prevColor = elem.first->getFillColor();
+				// button color is changed while proceed  
+				auto prevColor = pair.first->getFillColor();
 
-				elem.first->setFillColor(sf::Color::Red);
-
-				elem.second->execute();
-
-				elem.first->setFillColor(prevColor);
+				pair.first->setFillColor(sf::Color::Red);
+				pair.second->execute();
+				pair.first->setFillColor(prevColor);
 
 				break;
 			}
