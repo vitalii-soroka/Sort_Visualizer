@@ -5,7 +5,7 @@ This GitHub project is a C++ sort visualization program that makes use of the SF
 Users can evaluate and visualize various sorting algorithms.
 The application offers an interactive way to select, visualize algorithm and generate data.
 
-![sort_example(1)](https://github.com/vitalii-soroka/Sort_Visualizer/assets/58570486/13cab6d9-f2e0-4fbf-b02f-6f17702c6b4a)
+![sort_example_4](https://github.com/vitalii-soroka/Sort_Visualizer/assets/58570486/fe610df1-17b9-4d06-93c0-16019e88f3e8)
 
 ### Technologies used:
 
